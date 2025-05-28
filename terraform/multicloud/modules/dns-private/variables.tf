@@ -35,7 +35,7 @@ variable "azure_spoke_vnet_id" {
 variable "azure_vm_ip" {
   description = "IP da VM Azure para registro DNS"
   type        = string
-  default     = ""
+  default     = 1
 }
 
 # Configurações AWS
@@ -54,7 +54,7 @@ variable "aws_vpc_id" {
 variable "aws_ec2_ip" {
   description = "IP da instância EC2 para registro DNS"
   type        = string
-  default     = ""
+  default     = "1"
 }
 
 variable "tags" {

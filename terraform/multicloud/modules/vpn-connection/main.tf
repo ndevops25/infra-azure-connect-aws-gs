@@ -1,19 +1,6 @@
 # modules/vpn-connection/main.tf
 # Módulo VPN Connection - Versão Básica para Estudantes
 
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.0"
-    }
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-}
-
 # Public IP para VPN Gateway Azure
 resource "azurerm_public_ip" "vpn_gateway" {
   name                = "pip-vpngw-${var.project_name}-${var.environment}"

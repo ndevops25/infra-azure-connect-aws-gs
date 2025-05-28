@@ -124,37 +124,3 @@ output "network_info" {
     }
   }
 }
-
-# Outputs úteis para outros módulos
-output "network_info" {
-  description = "Informações consolidadas da rede"
-  value = {
-    hub = {
-      vnet_id           = azurerm_virtual_network.hub.id
-      vnet_name         = azurerm_virtual_network.hub.name
-      address_space     = azurerm_virtual_network.hub.address_space
-      gateway_subnet_id = azurerm_subnet.gateway.id
-      firewall_subnet_id = azurerm_subnet.firewall.id
-      subnets = {
-        for k, v in azurerm_subnet.hub_subnets : k => {
-          id            = v.id
-          name          = v.name
-          address_prefix = v.address_prefixes[0]
-        }
-      }
-    }
-    spoke = {
-      vnet_id       = azurerm_virtual_network.spoke.id
-      vnet_name     = azurerm_virtual_network.spoke.name
-      address_space = azurerm_virtual_network.spoke.address_space
-      route_table_id = var.create_spoke_route_table ? azurerm_route_table.spoke[0].id : null
-      subnets = {
-        for k, v in azurerm_subnet.spoke_subnets : k => {
-          id            = v.id
-          name          = v.name
-          address_prefix = v.address_prefixes[0]
-        }
-      }
-    }
-  }
-}

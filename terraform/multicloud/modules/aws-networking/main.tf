@@ -1,15 +1,6 @@
 # modules/aws-networking/main.tf
 # Módulo AWS Networking - Versão Básica para Estudantes
 
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-}
-
 # VPC básica
 resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr

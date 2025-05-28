@@ -1,15 +1,6 @@
 # modules/azure-networking/main.tf
 # Módulo Azure Networking - Versão Completa
 
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.0"
-    }
-  }
-}
-
 # VNET Hub
 resource "azurerm_virtual_network" "hub" {
   name                = "vnet-hub-${var.project_name}-${var.environment}"
@@ -98,8 +89,6 @@ resource "azurerm_route_table" "hub" {
   location            = var.location
   resource_group_name = var.resource_group_name
   
-  disable_bgp_route_propagation = false
-  
   tags = var.tags
 }
 
@@ -110,8 +99,6 @@ resource "azurerm_route_table" "spoke" {
   name                = "rt-spoke-${var.environment}"
   location            = var.location
   resource_group_name = var.resource_group_name
-  
-  disable_bgp_route_propagation = false
   
   tags = var.tags
 }

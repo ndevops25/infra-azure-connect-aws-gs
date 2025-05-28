@@ -1,6 +1,25 @@
 # main.tf - Versão Simplificada para Estudantes
 # Orquestração básica dos módulos
 
+# Gerar par de chaves SSH automaticamente
+resource "tls_private_key" "ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+# Salvar chaves localmente
+resource "local_file" "private_key" {
+  content         = tls_private_key.ssh_key.private_key_pem
+  filename        = "${path.module}/ssh-keys/id_rsa"
+  file_permission = "0600"
+}
+
+resource "local_file" "public_key" {
+  content         = tls_private_key.ssh_key.public_key_openssh
+  filename        = "${path.module}/ssh-keys/id_rsa.pub"
+  file_permission = "0644"
+}
+
 # Resource Group principal
 resource "azurerm_resource_group" "main" {
   name     = "rg-${var.project_name}-${var.environment}"
@@ -57,7 +76,7 @@ module "azure_compute" {
   # Configurações econômicas
   vm_size              = var.azure_vm_size
   admin_username       = var.azure_vm_admin_username
-  ssh_public_key_path  = var.ssh_public_key_path
+  ssh_public_key_path  = tls_private_key.ssh_key.public_key_openssh
   create_public_ip     = false  # Economizar, acesso via VPN ou jumpbox
   allow_http          = false
   allowed_source_cidr = "10.2.0.0/16"  # Apenas AWS

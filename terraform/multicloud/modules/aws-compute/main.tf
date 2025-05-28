@@ -1,18 +1,9 @@
 # modules/aws-compute/main.tf
 # Módulo AWS Compute - Versão Básica para Estudantes
 
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-}
-
 # Security Group básico
 resource "aws_security_group" "main" {
-  name        = "sg-${var.instance_name}-${var.environment}"
+  name        = "${var.instance_name}-${var.environment}-sg"
   description = "Security group for ${var.instance_name}"
   vpc_id      = var.vpc_id
 
@@ -76,7 +67,7 @@ resource "aws_eip" "main" {
 # EC2 Instance básica
 resource "aws_instance" "main" {
   ami                    = data.aws_ami.ubuntu.id
-  instance_type          = var.instance_type
+  instance_type          = "t3.micro" 
   key_name               = var.key_name
   subnet_id              = var.subnet_id
   vpc_security_group_ids = [aws_security_group.main.id]
@@ -99,13 +90,14 @@ resource "aws_instance" "main" {
 }
 
 # Data source para AMI Ubuntu mais recente
+# Data source para AMI Ubuntu
 data "aws_ami" "ubuntu" {
   most_recent = true
   owners      = ["099720109477"] # Canonical
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-22.04-lts-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
   filter {

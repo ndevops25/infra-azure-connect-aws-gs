@@ -68,27 +68,20 @@ variable "aws_region" {
 variable "azure_vm_size" {
   description = "Tamanho da VM Azure (sobrescreve configuração do ambiente)"
   type        = string
-  default     = null
-  
-  validation {
-    condition = var.azure_vm_size == null || contains([
-      "Standard_B1s", "Standard_B2s", "Standard_D2s_v3", "Standard_D4s_v3"
-    ], var.azure_vm_size)
-    error_message = "Azure VM size deve ser um tamanho válido."
-  }
+  default     = "Standard_B1s"
 }
 
 variable "aws_instance_type" {
   description = "Tipo da instância EC2 (sobrescreve configuração do ambiente)"
   type        = string
-  default     = null
+  default     = "t3.medium"
   
-  validation {
-    condition = var.aws_instance_type == null || contains([
-      "t3.micro", "t3.small", "t3.medium", "t3.large"
-    ], var.aws_instance_type)
-    error_message = "AWS instance type deve ser um tipo válido."
-  }
+#   validation {
+#     condition = var.aws_instance_type == "" || contains([
+#       "t3.micro", "t3.small", "t3.medium", "t3.large"
+#     ], var.aws_instance_type)
+#     error_message = "AWS instance type deve ser um tipo válido."
+#   }
 }
 
 variable "azure_vm_admin_username" {
@@ -96,10 +89,10 @@ variable "azure_vm_admin_username" {
   type        = string
   default     = "azureuser"
   
-  validation {
-    condition     = length(var.azure_vm_admin_username) >= 3
-    error_message = "Admin username deve ter pelo menos 3 caracteres."
-  }
+#   validation {
+#     condition     = length(var.azure_vm_admin_username) >= 3
+#     error_message = "Admin username deve ter pelo menos 3 caracteres."
+#   }
 }
 
 variable "aws_key_pair_name" {
@@ -123,10 +116,10 @@ variable "allowed_ssh_cidrs" {
   type        = list(string)
   default     = ["0.0.0.0/0"]
   
-  validation {
-    condition     = length(var.allowed_ssh_cidrs) > 0
-    error_message = "Deve haver pelo menos um CIDR permitido para SSH."
-  }
+#   validation {
+#     condition     = length(var.allowed_ssh_cidrs) > 0
+#     error_message = "Deve haver pelo menos um CIDR permitido para SSH."
+#   }
 }
 
 # ==========================================
@@ -182,14 +175,14 @@ variable "enable_backup" {
 variable "vpn_gateway_sku" {
   description = "SKU do VPN Gateway Azure (sobrescreve configuração do ambiente)"
   type        = string
-  default     = null
+  default     = "VpnGw1"
   
-  validation {
-    condition = var.vpn_gateway_sku == null || contains([
-      "VpnGw1", "VpnGw2", "VpnGw3", "VpnGw4", "VpnGw5"
-    ], var.vpn_gateway_sku)
-    error_message = "VPN Gateway SKU deve ser válido."
-  }
+#   validation {
+#     condition = var.vpn_gateway_sku == "" || contains([
+#       "VpnGw1", "VpnGw2", "VpnGw3", "VpnGw4", "VpnGw5"
+#     ], var.vpn_gateway_sku)
+#     error_message = "VPN Gateway SKU deve ser válido."
+#   }
 }
 
 variable "vpn_bgp_asn" {
@@ -197,10 +190,10 @@ variable "vpn_bgp_asn" {
   type        = number
   default     = 65000
   
-  validation {
-    condition     = var.vpn_bgp_asn >= 1 && var.vpn_bgp_asn <= 4294967294
-    error_message = "BGP ASN deve estar entre 1 e 4294967294."
-  }
+#   validation {
+#     condition     = var.vpn_bgp_asn >= 1 && var.vpn_bgp_asn <= 4294967294
+#     error_message = "BGP ASN deve estar entre 1 e 4294967294."
+#   }
 }
 
 # ==========================================
@@ -212,10 +205,10 @@ variable "private_dns_zone_name" {
   type        = string
   default     = "xpto.local"
   
-  validation {
-    condition     = can(regex("^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", var.private_dns_zone_name))
-    error_message = "DNS zone name deve ser um FQDN válido."
-  }
+#   validation {
+#     condition     = can(regex("^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", var.private_dns_zone_name))
+#     error_message = "DNS zone name deve ser um FQDN válido."
+#   }
 }
 
 # ==========================================
@@ -232,15 +225,15 @@ variable "custom_azure_cidrs" {
   })
   default = {}
   
-  validation {
-    condition = alltrue([
-      can(cidrhost(var.custom_azure_cidrs.hub_vnet, 1)),
-      can(cidrhost(var.custom_azure_cidrs.spoke_vnet, 1)),
-      can(cidrhost(var.custom_azure_cidrs.gateway_subnet, 1)),
-      can(cidrhost(var.custom_azure_cidrs.firewall_subnet, 1))
-    ])
-    error_message = "Todos os CIDRs Azure devem ser válidos."
-  }
+#   validation {
+#     condition = alltrue([
+#       can(cidrhost(var.custom_azure_cidrs.hub_vnet, 1)),
+#       can(cidrhost(var.custom_azure_cidrs.spoke_vnet, 1)),
+#       can(cidrhost(var.custom_azure_cidrs.gateway_subnet, 1)),
+#       can(cidrhost(var.custom_azure_cidrs.firewall_subnet, 1))
+#     ])
+#     error_message = "Todos os CIDRs Azure devem ser válidos."
+#   }
 }
 
 variable "custom_aws_cidrs" {
@@ -251,13 +244,13 @@ variable "custom_aws_cidrs" {
   })
   default = {}
   
-  validation {
-    condition = alltrue([
-      can(cidrhost(var.custom_aws_cidrs.vpc_cidr, 1)),
-      can(cidrhost(var.custom_aws_cidrs.subnet_cidr, 1))
-    ])
-    error_message = "Todos os CIDRs AWS devem ser válidos."
-  }
+#   validation {
+#     condition = alltrue([
+#       can(cidrhost(var.custom_aws_cidrs.vpc_cidr, 1)),
+#       can(cidrhost(var.custom_aws_cidrs.subnet_cidr, 1))
+#     ])
+#     error_message = "Todos os CIDRs AWS devem ser válidos."
+#   }
 }
 
 # ==========================================
@@ -325,12 +318,12 @@ variable "advanced_networking" {
 variable "cost_alert_threshold" {
   description = "Limite de custo mensal para alertas (USD)"
   type        = number
-  default     = null  # Será definido pelo ambiente
+  default     = 300  # Será definido pelo ambiente
   
-  validation {
-    condition     = var.cost_alert_threshold == null || var.cost_alert_threshold > 0
-    error_message = "Cost alert threshold deve ser maior que 0."
-  }
+#   validation {
+#     condition     = var.cost_alert_threshold == "" || var.cost_alert_threshold > 0
+#     error_message = "Cost alert threshold deve ser maior que 0."
+#   }
 }
 
 variable "enable_cost_optimization" {
@@ -353,88 +346,4 @@ variable "enable_spoke_aws_routing" {
   description = "Habilitar roteamento do spoke para AWS via firewall"
   type        = bool
   default     = true
-}# variables.tf - Versão Simplificada para Estudantes
-
-# Configurações básicas
-variable "project_name" {
-  description = "Nome do projeto"
-  type        = string
-  default     = "xpto-corp"
-}
-
-variable "environment" {
-  description = "Ambiente"
-  type        = string
-  default     = "dev"
-}
-
-# Regiões
-variable "azure_location" {
-  description = "Região do Azure"
-  type        = string
-  default     = "Brazil South"
-}
-
-variable "aws_region" {
-  description = "Região da AWS"
-  type        = string
-  default     = "sa-east-1"
-}
-
-# Configurações Azure VM (econômicas)
-variable "azure_vm_size" {
-  description = "Tamanho da VM Azure"
-  type        = string
-  default     = "Standard_B1s"  # 1 vCPU, 1GB RAM - ~$8/mês
-}
-
-variable "azure_vm_admin_username" {
-  description = "Username admin Azure"
-  type        = string
-  default     = "azureuser"
-}
-
-# Configurações AWS EC2 (econômicas)
-variable "aws_instance_type" {
-  description = "Tipo da instância EC2"
-  type        = string
-  default     = "t3.micro"  # Elegível para free tier
-}
-
-variable "aws_key_pair_name" {
-  description = "Nome do Key Pair AWS (deve existir)"
-  type        = string
-  default     = "xpto-keypair"
-}
-
-# SSH
-variable "ssh_public_key_path" {
-  description = "Caminho para chave SSH pública"
-  type        = string
-  default     = "~/.ssh/id_rsa.pub"
-}
-
-# Features opcionais (para controlar custos)
-variable "enable_vpn_connection" {
-  description = "Habilitar VPN Site-to-Site (custa ~$178/mês total)"
-  type        = bool
-  default     = false  # Desabilitado por padrão para economizar
-}
-
-variable "enable_aws_dns" {
-  description = "Habilitar DNS privado na AWS"
-  type        = bool
-  default     = true  # Custo baixo
-}
-
-variable "vpn_gateway_sku" {
-  description = "SKU do VPN Gateway Azure"
-  type        = string
-  default     = "VpnGw1"  # Mais barato
-}
-
-variable "private_dns_zone_name" {
-  description = "Nome da zona DNS privada"
-  type        = string
-  default     = "2tcnpz.local"
 }

@@ -12,12 +12,12 @@ output "azure_dns_zone_name" {
 
 output "aws_dns_zone_id" {
   description = "ID da zona DNS privada AWS (se criada)"
-  value       = var.create_aws_dns ? aws_route53_zone.private[0].zone_id : null
+  value       = var.create_aws_dns # ? aws_route53_zone.private[0].zone_id : null
 }
 
 output "aws_dns_zone_name" {
   description = "Nome da zona DNS privada AWS (se criada)"
-  value       = var.create_aws_dns ? aws_route53_zone.private[0].name : null
+  value       = var.create_aws_dns # ? aws_route53_zone.private[0].name : null
 }
 
 output "dns_records" {

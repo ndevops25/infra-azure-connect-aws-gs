@@ -89,7 +89,7 @@ resource "azurerm_linux_virtual_machine" "main" {
   name                = var.vm_name
   location            = var.location
   resource_group_name = var.resource_group_name
-  size                = var.vm_size
+  size                = "Standard_B1s"
   admin_username      = var.admin_username
 
   disable_password_authentication = true
@@ -100,7 +100,7 @@ resource "azurerm_linux_virtual_machine" "main" {
 
   admin_ssh_key {
     username   = var.admin_username
-    public_key = file(var.ssh_public_key_path)
+    public_key = var.ssh_public_key_path != null ? var.ssh_public_key_path : file("~/.ssh/id_rsa.pub")
   }
 
   os_disk {
