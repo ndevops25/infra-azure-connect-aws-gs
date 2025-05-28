@@ -1,0 +1,395 @@
+<svg viewBox="0 0 1400 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradientes -->
+    <linearGradient id="azureGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0078d4;stop-opacity:0.1"/>
+      <stop offset="100%" style="stop-color:#0078d4;stop-opacity:0.3"/>
+    </linearGradient>
+    <linearGradient id="awsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff9900;stop-opacity:0.1"/>
+      <stop offset="100%" style="stop-color:#ff9900;stop-opacity:0.3"/>
+    </linearGradient>
+    <linearGradient id="internetGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#673ab7;stop-opacity:0.2"/>
+      <stop offset="100%" style="stop-color:#673ab7;stop-opacity:0.5"/>
+    </linearGradient>
+    
+    <!-- Sombras -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="3" stdDeviation="3" flood-color="#333" flood-opacity="0.3"/>
+    </filter>
+    
+    <!-- Setas -->
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ff5722"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2196f3"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4caf50"/>
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1400" height="1000" fill="#f8f9fa"/>
+  
+  <!-- Título -->
+  <text x="700" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#333">
+    XPTO Corp - Arquitetura Multi-Cloud (Azure + AWS)
+  </text>
+  
+  <!-- Internet -->
+  <ellipse cx="700" cy="80" rx="100" ry="30" fill="url(#internetGradient)" stroke="#673ab7" stroke-width="2" filter="url(#shadow)"/>
+  <text x="700" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">
+    INTERNET
+  </text>
+  
+  <!-- Azure Cloud -->
+  <rect x="50" y="120" width="600" height="750" rx="15" fill="url(#azureGradient)" stroke="#0078d4" stroke-width="3" filter="url(#shadow)"/>
+  <text x="350" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#0078d4">
+    Microsoft Azure
+  </text>
+  <text x="350" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#0078d4">
+    Brazil South
+  </text>
+  
+  <!-- AWS Cloud -->
+  <rect x="750" y="120" width="600" height="750" rx="15" fill="url(#awsGradient)" stroke="#ff9900" stroke-width="3" filter="url(#shadow)"/>
+  <text x="1050" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ff9900">
+    Amazon Web Services
+  </text>
+  <text x="1050" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#ff9900">
+    sa-east-1
+  </text>
+  
+  <!-- Resource Group Azure -->
+  <rect x="80" y="180" width="540" height="40" rx="5" fill="#e1f5fe" stroke="#0078d4" stroke-width="1"/>
+  <text x="350" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#0078d4">
+    Resource Group: rg-xpto-corp-dev
+  </text>
+  
+  <!-- VNET Hub -->
+  <rect x="100" y="240" width="240" height="280" rx="10" fill="#bbdefb" stroke="#1976d2" stroke-width="2"/>
+  <text x="220" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">
+    VNET Hub
+  </text>
+  <text x="220" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1976d2">
+    10.1.0.0/16
+  </text>
+  
+  <!-- Hub Subnet -->
+  <rect x="120" y="290" width="100" height="60" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="1"/>
+  <text x="170" y="310" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1976d2">
+    Hub Subnet
+  </text>
+  <text x="170" y="325" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">
+    10.1.1.0/24
+  </text>
+  <text x="170" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">
+    Shared Services
+  </text>
+  
+  <!-- Gateway Subnet -->
+  <rect x="230" y="290" width="100" height="60" rx="5" fill="#c8e6c9" stroke="#388e3c" stroke-width="1"/>
+  <text x="280" y="310" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#388e3c">
+    Gateway Subnet
+  </text>
+  <text x="280" y="325" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">
+    10.1.3.0/27
+  </text>
+  
+  <!-- Firewall Subnet -->
+  <rect x="120" y="360" width="100" height="60" rx="5" fill="#ffcdd2" stroke="#d32f2f" stroke-width="1"/>
+  <text x="170" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#d32f2f">
+    Firewall Subnet
+  </text>
+  <text x="170" y="395" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">
+    10.1.4.0/26
+  </text>
+  
+  <!-- Bastion Subnet -->
+  <rect x="230" y="360" width="100" height="60" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
+  <text x="280" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#f57c00">
+    Bastion Subnet
+  </text>
+  <text x="280" y="395" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">
+    10.1.5.0/26
+  </text>
+  
+  <!-- VPN Gateway -->
+  <rect x="250" y="440" width="60" height="40" rx="5" fill="#4caf50" stroke="#2e7d32" stroke-width="2"/>
+  <text x="280" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">
+    VPN GW
+  </text>
+  <text x="280" y="468" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">
+    VpnGw1
+  </text>
+  
+  <!-- Azure Firewall -->
+  <rect x="140" y="440" width="60" height="40" rx="5" fill="#f44336" stroke="#c62828" stroke-width="2"/>
+  <text x="170" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">
+    Firewall
+  </text>
+  <text x="170" y="468" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">
+    Standard
+  </text>
+  
+  <!-- VNET Spoke -->
+  <rect x="360" y="240" width="240" height="280" rx="10" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+  <text x="480" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#7b1fa2">
+    VNET Spoke
+  </text>
+  <text x="480" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#7b1fa2">
+    10.1.10.0/24
+  </text>
+  
+  <!-- Spoke Subnet -->
+  <rect x="380" y="290" width="200" height="100" rx="5" fill="#fce4ec" stroke="#7b1fa2" stroke-width="1"/>
+  <text x="480" y="310" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#7b1fa2">
+    Spoke Subnet
+  </text>
+  <text x="480" y="325" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">
+    10.1.10.0/25
+  </text>
+  
+  <!-- VM Azure -->
+  <rect x="430" y="340" width="100" height="40" rx="5" fill="#2196f3" stroke="#0d47a1" stroke-width="2"/>
+  <text x="480" y="355" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">
+    VM Linux
+  </text>
+  <text x="480" y="368" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">
+    Ubuntu 22.04
+  </text>
+  
+  <!-- NSG -->
+  <rect x="380" y="410" width="80" height="30" rx="3" fill="#e91e63" stroke="#ad1457" stroke-width="1"/>
+  <text x="420" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    NSG
+  </text>
+  
+  <!-- Route Table -->
+  <rect x="480" y="410" width="80" height="30" rx="3" fill="#ffeb3b" stroke="#f57f17" stroke-width="1"/>
+  <text x="520" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#333">
+    Route Table
+  </text>
+  
+  <!-- DNS Zone Azure -->
+  <rect x="100" y="540" width="500" height="60" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+  <text x="350" y="560" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#f57c00">
+    Private DNS Zone: xpto.local
+  </text>
+  <text x="350" y="580" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#e65100">
+    vm-azure.xpto.local → 10.1.10.x
+  </text>
+  
+  <!-- Monitoring Services Azure -->
+  <rect x="100" y="620" width="120" height="40" rx="3" fill="#9c27b0" stroke="#6a1b9a" stroke-width="1"/>
+  <text x="160" y="640" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    Network Watcher
+  </text>
+  
+  <rect x="240" y="620" width="120" height="40" rx="3" fill="#795548" stroke="#5d4037" stroke-width="1"/>
+  <text x="300" y="640" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    Flow Logs
+  </text>
+  
+  <rect x="380" y="620" width="120" height="40" rx="3" fill="#607d8b" stroke="#37474f" stroke-width="1"/>
+  <text x="440" y="640" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    App Sec Groups
+  </text>
+  
+  <!-- AWS VPC -->
+  <rect x="780" y="180" width="540" height="340" rx="10" fill="#fff8e1" stroke="#ff9900" stroke-width="2"/>
+  <text x="1050" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#ff9900">
+    VPC
+  </text>
+  <text x="1050" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#ff9900">
+    10.2.0.0/16
+  </text>
+  
+  <!-- Public Subnet AWS -->
+  <rect x="800" y="240" width="240" height="120" rx="5" fill="#ffecb3" stroke="#f57c00" stroke-width="1"/>
+  <text x="920" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#f57c00">
+    Public Subnet
+  </text>
+  <text x="920" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">
+    10.2.1.0/24
+  </text>
+  
+  <!-- EC2 Instance -->
+  <rect x="850" y="290" width="100" height="50" rx="5" fill="#ff9900" stroke="#e65100" stroke-width="2"/>
+  <text x="900" y="310" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">
+    EC2 Instance
+  </text>
+  <text x="900" y="325" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">
+    t3.micro
+  </text>
+  
+  <!-- Internet Gateway -->
+  <rect x="1180" y="240" width="60" height="40" rx="5" fill="#4caf50" stroke="#2e7d32" stroke-width="2"/>
+  <text x="1210" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">
+    IGW
+  </text>
+  <text x="1210" y="268" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">
+    Internet GW
+  </text>
+  
+  <!-- Security Group -->
+  <rect x="970" y="290" width="100" height="50" rx="5" fill="#f44336" stroke="#c62828" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="1020" y="310" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#c62828">
+    Security Group
+  </text>
+  <text x="1020" y="325" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#c62828">
+    SSH, ICMP, HTTP
+  </text>
+  
+  <!-- Private Subnet AWS -->
+  <rect x="800" y="380" width="240" height="120" rx="5" fill="#e8f5e8" stroke="#4caf50" stroke-width="1" stroke-dasharray="5,5"/>
+  <text x="920" y="400" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#4caf50">
+    Private Subnet (Opcional)
+  </text>
+  <text x="920" y="415" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#666">
+    10.2.2.0/24
+  </text>
+  <text x="920" y="460" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#4caf50">
+    Future: RDS, Cache, etc.
+  </text>
+  
+  <!-- VPN Gateway AWS -->
+  <rect x="1160" y="380" width="80" height="50" rx="5" fill="#4caf50" stroke="#2e7d32" stroke-width="2"/>
+  <text x="1200" y="400" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">
+    VPN Gateway
+  </text>
+  <text x="1200" y="413" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">
+    AWS Side
+  </text>
+  
+  <!-- Customer Gateway -->
+  <rect x="1260" y="380" width="80" height="50" rx="5" fill="#2196f3" stroke="#0d47a1" stroke-width="2"/>
+  <text x="1300" y="400" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">
+    Customer GW
+  </text>
+  <text x="1300" y="413" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">
+    Azure Repr.
+  </text>
+  
+  <!-- Route 53 DNS -->
+  <rect x="780" y="540" width="540" height="60" rx="5" fill="#e8f5e8" stroke="#4caf50" stroke-width="2"/>
+  <text x="1050" y="560" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#4caf50">
+    Route 53 Private Zone: aws.xpto.local
+  </text>
+  <text x="1050" y="580" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#2e7d32">
+    ec2-aws.aws.xpto.local → 10.2.1.x
+  </text>
+  
+  <!-- AWS Monitoring -->
+  <rect x="780" y="620" width="120" height="40" rx="3" fill="#ff9900" stroke="#e65100" stroke-width="1"/>
+  <text x="840" y="640" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    CloudWatch
+  </text>
+  
+  <rect x="920" y="620" width="120" height="40" rx="3" fill="#9c27b0" stroke="#6a1b9a" stroke-width="1"/>
+  <text x="980" y="640" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    VPC Flow Logs
+  </text>
+  
+  <rect x="1060" y="620" width="120" height="40" rx="3" fill="#f44336" stroke="#c62828" stroke-width="1"/>
+  <text x="1120" y="640" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    GuardDuty
+  </text>
+  
+  <rect x="1200" y="620" width="120" height="40" rx="3" fill="#673ab7" stroke="#4527a0" stroke-width="1"/>
+  <text x="1260" y="640" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    AWS Config
+  </text>
+  
+  <!-- VPN Connection -->
+  <path d="M 310 460 Q 700 500 1160 405" stroke="#ff5722" stroke-width="4" fill="none" marker-end="url(#arrowRed)"/>
+  <path d="M 1160 405 Q 700 360 310 460" stroke="#ff5722" stroke-width="4" fill="none" marker-end="url(#arrowRed)" stroke-dasharray="10,5"/>
+  
+  <!-- VPN Label -->
+  <rect x="620" y="420" width="140" height="50" rx="5" fill="#ff5722" stroke="#d84315" stroke-width="2"/>
+  <text x="690" y="440" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">
+    VPN Site-to-Site
+  </text>
+  <text x="690" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">
+    IPsec Tunnels
+  </text>
+  
+  <!-- VNET Peering -->
+  <line x1="340" y1="380" x2="360" y2="380" stroke="#9c27b0" stroke-width="3" marker-end="url(#arrowBlue)"/>
+  <line x1="360" y1="390" x2="340" y2="390" stroke="#9c27b0" stroke-width="3" marker-end="url(#arrowBlue)"/>
+  <text x="350" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#9c27b0">
+    Peering
+  </text>
+  
+  <!-- Internet Connections -->
+  <line x1="170" y1="440" x2="620" y2="110" stroke="#9e9e9e" stroke-width="2" stroke-dasharray="8,4" marker-end="url(#arrowGreen)"/>
+  <line x1="280" y1="440" x2="680" y2="110" stroke="#9e9e9e" stroke-width="2" stroke-dasharray="8,4" marker-end="url(#arrowGreen)"/>
+  <line x1="1210" y1="240" x2="780" y2="110" stroke="#9e9e9e" stroke-width="2" stroke-dasharray="8,4" marker-end="url(#arrowGreen)"/>
+  
+  <!-- Data Flow Animation -->
+  <circle cx="650" cy="430" r="6" fill="#4caf50" opacity="0.8">
+    <animate attributeName="cx" values="350;1050;350" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Cost and Info Box -->
+  <rect x="50" y="700" width="1300" height="80" rx="8" fill="#f5f5f5" stroke="#bdbdbd" stroke-width="1"/>
+  <text x="700" y="720" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">
+    💰 Estimativa de Custos e Performance
+  </text>
+  
+  <text x="100" y="740" font-family="Arial, sans-serif" font-size="11" fill="#333">
+    <tspan font-weight="bold">Econômico (~$25/mês):</tspan> Azure VM B1s $8 + AWS EC2 t3.micro $9* + IPs $7 + DNS $1 (*Free Tier)
+  </text>
+  <text x="100" y="755" font-family="Arial, sans-serif" font-size="11" fill="#333">
+    <tspan font-weight="bold">Completo (~$747/mês):</tspan> + VPN Gateways $178 + Azure Firewall $544 | 
+    <tspan font-weight="bold">Performance:</tspan> Latência 15-30ms | Throughput 650Mbps | SLA 99.5%
+  </text>
+  <text x="100" y="770" font-family="Arial, sans-serif" font-size="11" fill="#333">
+    <tspan font-weight="bold">Segurança:</tspan> VPN IPsec + NSGs + Security Groups + DNS Privado + Firewall (opcional) + Threat Intelligence
+  </text>
+  
+  <!-- Legend -->
+  <rect x="50" y="790" width="1300" height="40" rx="5" fill="#fafafa" stroke="#757575" stroke-width="1"/>
+  <text x="700" y="810" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">
+    Legenda: 
+  </text>
+  
+  <line x1="50" y1="820" x2="70" y2="820" stroke="#ff5722" stroke-width="3"/>
+  <text x="75" y="825" font-family="Arial, sans-serif" font-size="10" fill="#333">VPN</text>
+  
+  <line x1="130" y1="820" x2="150" y2="820" stroke="#9c27b0" stroke-width="3"/>
+  <text x="155" y="825" font-family="Arial, sans-serif" font-size="10" fill="#333">Peering</text>
+  
+  <line x1="220" y1="820" x2="240" y2="820" stroke="#9e9e9e" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="245" y="825" font-family="Arial, sans-serif" font-size="10" fill="#333">Internet</text>
+  
+  <rect x="320" y="815" width="12" height="10" fill="#4caf50"/>
+  <text x="340" y="825" font-family="Arial, sans-serif" font-size="10" fill="#333">Gateways</text>
+  
+  <rect x="410" y="815" width="12" height="10" fill="#f44336"/>
+  <text x="430" y="825" font-family="Arial, sans-serif" font-size="10" fill="#333">Firewalls</text>
+  
+  <rect x="500" y="815" width="12" height="10" fill="#2196f3"/>
+  <text x="520" y="825" font-family="Arial, sans-serif" font-size="10" fill="#333">VMs</text>
+  
+  <rect x="570" y="815" width="12" height="10" fill="#ff9900"/>
+  <text x="590" y="825" font-family="Arial, sans-serif" font-size="10" fill="#333">AWS</text>
+  
+  <rect x="640" y="815" width="12" height="10" fill="#f57c00" stroke="#e65100" stroke-dasharray="2,2"/>
+  <text x="660" y="825" font-family="Arial, sans-serif" font-size="10" fill="#333">Security</text>
+  
+  <rect x="730" y="815" width="12" height="10" fill="#fff3e0" stroke="#f57c00"/>
+  <text x="750" y="825" font-family="Arial, sans-serif" font-size="10" fill="#333">DNS</text>
+  
+  <circle cx="810" cy="820" r="5" fill="#4caf50" opacity="0.7"/>
+  <text x="825" y="825" font-family="Arial, sans-serif" font-size="10" fill="#333">Data Flow</text>
+  
+  <text x="950" y="825" font-family="Arial, sans-serif" font-size="10" fill="#666">
+    🚀 Terraform Modular | Multi-Cloud | Escalável | Seguro
+  </text>
+  
+</svg>
