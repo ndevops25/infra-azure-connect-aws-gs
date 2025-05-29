@@ -132,17 +132,3 @@ output "cost_estimation" {
     ) > 500 ? "Consider disabling expensive features for development" : "Cost-effective configuration"
   }
 }
-
-output "network_watcher_id" {
-  description = "ID do Network Watcher (se habilitado)"
-  value       = var.enable_network_watcher ? azurerm_network_watcher.main[0].id : null
-}
-
-output "security_status" {
-  description = "Status da configuração de segurança"
-  value = {
-    firewall_enabled      = var.enable_firewall
-    network_watcher_enabled = var.enable_network_watcher
-    security_level       = var.enable_firewall ? "Enhanced" : "Basic"
-  }
-}

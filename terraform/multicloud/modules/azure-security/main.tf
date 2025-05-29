@@ -60,8 +60,12 @@ resource "azurerm_firewall_policy" "main" {
     servers       = var.custom_dns_servers
   }
 
-  intrusion_detection {
-    mode = var.intrusion_detection_mode
+  # Intrusion Detection só funciona com SKU Premium
+  dynamic "intrusion_detection" {
+    for_each = var.firewall_sku == "Premium" ? [1] : []
+    content {
+      mode = var.intrusion_detection_mode
+    }
   }
 
   tags = var.tags

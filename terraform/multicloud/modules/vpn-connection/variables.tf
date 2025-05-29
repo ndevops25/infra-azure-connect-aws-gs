@@ -40,9 +40,9 @@ variable "azure_spoke_cidr" {
 
 # Configurações AWS
 variable "aws_vpn_gateway_id" {
-  description = "ID do VPN Gateway AWS (pode ser null para desabilitar VPN)"
+  description = "ID do VPN Gateway AWS"
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "aws_vpc_cidr" {
@@ -52,10 +52,16 @@ variable "aws_vpc_cidr" {
 }
 
 # Configurações VPN
+variable "enable_vpn_connection" {
+  description = "Habilitar VPN Connection (precisa de VPN Gateway AWS)"
+  type        = bool
+  default     = true
+}
+
 variable "vpn_gateway_sku" {
   description = "SKU do VPN Gateway Azure"
   type        = string
-  default     = "VpnGw1"  # Mais barato para estudantes
+  default     = "VpnGw1"
   
   validation {
     condition     = contains(["VpnGw1", "VpnGw2", "VpnGw3"], var.vpn_gateway_sku)

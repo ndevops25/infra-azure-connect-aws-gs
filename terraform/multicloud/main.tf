@@ -1,5 +1,5 @@
-# main.tf - Versão Simplificada para Estudantes
-# Orquestração básica dos módulos
+# main.tf - Orquestrador Completo Corrigido
+# Inclui todos os módulos necessários
 
 # Gerar par de chaves SSH automaticamente
 resource "tls_private_key" "ssh_key" {
@@ -7,17 +7,34 @@ resource "tls_private_key" "ssh_key" {
   rsa_bits  = 4096
 }
 
+# Criar diretório para chaves SSH
+resource "local_file" "ssh_dir" {
+  content  = ""
+  filename = "${path.module}/ssh-keys/.gitkeep"
+}
+
 # Salvar chaves localmente
 resource "local_file" "private_key" {
   content         = tls_private_key.ssh_key.private_key_pem
   filename        = "${path.module}/ssh-keys/id_rsa"
   file_permission = "0600"
+  
+  depends_on = [local_file.ssh_dir]
 }
 
 resource "local_file" "public_key" {
   content         = tls_private_key.ssh_key.public_key_openssh
   filename        = "${path.module}/ssh-keys/id_rsa.pub"
   file_permission = "0644"
+  
+  depends_on = [local_file.ssh_dir]
+}
+
+resource "aws_key_pair" "main" {
+  key_name   = "${var.project_name}-${var.environment}-keypair"
+  public_key = tls_private_key.ssh_key.public_key_openssh
+  
+  tags = local.common_tags
 }
 
 # Resource Group principal
@@ -27,7 +44,7 @@ resource "azurerm_resource_group" "main" {
   tags     = local.common_tags
 }
 
-# Módulo Azure Networking (com recursos básicos)
+# Módulo Azure Networking (CORRIGIDO)
 module "azure_networking" {
   source = "./modules/azure-networking"
   
@@ -36,33 +53,78 @@ module "azure_networking" {
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   
-  # Configurações básicas de rede
+  # CONFIGURAÇÃO CORRIGIDA - TODOS OS SUBNETS NOS RANGES CORRETOS
+  # ✅ CORREÇÃO: Todos os subnets devem estar dentro dos address_space corretos
   hub_vnet_config = {
-    address_space = ["10.1.0.0/16"]
+    address_space = ["10.0.0.0/16"]          # Hub VNET: 10.0.x.x
     subnets = {
-      hub_subnet = "10.1.1.0/24"
+      hub_subnet = "10.0.1.0/24"             # ✅ Dentro do Hub (10.0.x.x)
     }
   }
   
   spoke_vnet_config = {
-    address_space = ["10.1.10.0/24"]
+    address_space = ["10.1.0.0/16"]          # Spoke VNET: 10.1.x.x  
     subnets = {
-      spoke_subnet = "10.1.10.0/25"
+      spoke_subnet = "10.1.1.0/24"           # ✅ Dentro do Spoke (10.1.x.x)
     }
   }
   
-  gateway_subnet_cidr  = "10.1.3.0/27"
-  firewall_subnet_cidr = "10.1.4.0/26"
+  # ✅ CORREÇÃO CRÍTICA: Gateway e Firewall dentro do Hub
+  gateway_subnet_cidr  = "10.0.2.0/27"
+  firewall_subnet_cidr = "10.0.3.0/26"
   
-  # Configurações para estudantes
+  # Resto das configurações...
   enable_gateway_transit    = true
   use_remote_gateways      = false
-  create_spoke_route_table = false  # Simplificar roteamento
+  create_spoke_route_table = false
+  create_hub_nsg           = true
+  create_spoke_nsg         = true
+  aws_cidr_block          = "10.2.0.0/16"
   
   tags = local.common_tags
 }
 
-# Módulo Azure Compute (VM básica)
+# Módulo Azure Security (ADICIONADO)
+module "azure_security" {
+  source = "./modules/azure-security"
+  
+  project_name        = var.project_name
+  environment         = var.environment
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  
+  # Firewall subnet
+  firewall_subnet_id = module.azure_networking.firewall_subnet_id
+  
+  # Configurações de segurança (econômicas)
+  enable_firewall              = var.enable_firewall
+  enable_bastion              = var.enable_bastion
+  enable_ddos_protection      = false  # Muito caro para estudantes
+  enable_network_watcher      = false   # Grátis
+  enable_flow_logs            = false  # Para economizar
+  create_application_security_groups = false
+  
+  # CIDRs permitidos
+  azure_source_cidrs      = ["10.0.0.0/16", "10.1.0.0/16"]  # Hub + Spoke
+  azure_destination_cidrs = ["10.0.0.0/16", "10.1.0.0/16"]  # Hub + Spoke
+  aws_source_cidrs        = ["10.2.0.0/16"]                 # AWS
+  aws_destination_cidrs   = ["10.2.0.0/16"]                 # AWS
+  
+  # Configurações do Firewall (se habilitado)
+  firewall_sku                = "Standard"
+  threat_intelligence_mode    = "Alert"
+  intrusion_detection_mode    = "Alert"
+  
+  # Bastion (se habilitado)
+  vnet_name           = module.azure_networking.hub_vnet_name
+  bastion_subnet_cidr = "10.0.4.0/26"  # ✅ CORRIGIDO: Dentro do Hub (10.0.x.x)
+  
+  tags = local.common_tags
+  
+  depends_on = [module.azure_networking]
+}
+
+# Módulo Azure Compute (CORRIGIDO)
 module "azure_compute" {
   source = "./modules/azure-compute"
   
@@ -74,16 +136,16 @@ module "azure_compute" {
   subnet_id = module.azure_networking.spoke_subnet_ids["spoke_subnet"]
   
   # Configurações econômicas
-  vm_size              = var.azure_vm_size
-  admin_username       = var.azure_vm_admin_username
-  ssh_public_key_path  = tls_private_key.ssh_key.public_key_openssh
-  create_public_ip     = false  # Economizar, acesso via VPN ou jumpbox
-  allow_http          = false
-  allowed_source_cidr = "10.2.0.0/16"  # Apenas AWS
+  vm_size                 = var.azure_vm_size
+  admin_username          = var.azure_vm_admin_username
+  ssh_public_key_path     = tls_private_key.ssh_key.public_key_openssh
+  create_public_ip        = var.create_azure_public_ip
+  allow_http             = false
+  allowed_source_cidr    = "10.2.0.0/16"  # Apenas AWS
   
   tags = local.common_tags
   
-  depends_on = [module.azure_networking]
+  depends_on = [module.azure_networking, local_file.public_key]
 }
 
 # Módulo AWS Networking (básico)
@@ -102,7 +164,7 @@ module "aws_networking" {
   tags = local.common_tags
 }
 
-# Módulo AWS Compute (EC2 básica)
+# Módulo AWS Compute (CORRIGIDO)
 module "aws_compute" {
   source = "./modules/aws-compute"
   
@@ -112,18 +174,18 @@ module "aws_compute" {
   vpc_id    = module.aws_networking.vpc_id
   subnet_id = module.aws_networking.public_subnet_id
   
-  # Configurações econômicas
+  # CORREÇÃO: Usar o key pair criado automaticamente
   instance_type      = var.aws_instance_type
-  key_name          = var.aws_key_pair_name
-  create_elastic_ip = true  # Para acesso SSH
+  key_name          = aws_key_pair.main.key_name  # ✅ CORRIGIDO
+  create_elastic_ip = true
   allow_http        = false
-  allowed_icmp_cidrs = ["10.1.0.0/16", "10.1.10.0/24"]  # Azure
+  allowed_icmp_cidrs = ["10.0.0.0/16", "10.1.0.0/16"]
   
   azure_vm_ip = module.azure_compute.vm_private_ip
   
   tags = local.common_tags
   
-  depends_on = [module.aws_networking]
+  depends_on = [module.aws_networking, aws_key_pair.main]  # ✅ Adicionar dependência
 }
 
 # Módulo VPN Connection (opcional, para economizar)
@@ -139,14 +201,15 @@ module "vpn_connection" {
   azure_location            = azurerm_resource_group.main.location
   azure_resource_group_name = azurerm_resource_group.main.name
   azure_gateway_subnet_id   = module.azure_networking.gateway_subnet_id
-  azure_hub_cidr           = "10.1.0.0/16"
-  azure_spoke_cidr         = "10.1.10.0/24"
+  azure_hub_cidr   = "10.0.0.0/16"    # ✅ CORRIGIDO
+  azure_spoke_cidr = "10.1.0.0/16"    # ✅ CORRIGIDO
   
   # AWS side
-  aws_vpn_gateway_id = module.aws_networking.vpn_gateway_id
-  aws_vpc_cidr      = "10.2.0.0/16"
-  
+  aws_vpn_gateway_id = var.aws_vpn_gateway_id_manual
+  aws_vpc_cidr     = "10.2.0.0/16"    # ✅ OK
+
   # Configurações básicas
+  enable_vpn_connection = var.enable_vpn_connection
   vpn_gateway_sku = var.vpn_gateway_sku
   bgp_asn        = 65000
   
@@ -195,5 +258,6 @@ locals {
     CreatedBy   = "Terraform"
     Purpose     = "Learning"
     Budget      = "Limited"
+    CreatedOn   = timestamp()
   }
 }

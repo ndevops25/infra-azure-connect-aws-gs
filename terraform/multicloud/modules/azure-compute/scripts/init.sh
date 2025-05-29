@@ -17,6 +17,19 @@ apt-get install -y \
 # Configurar timezone
 timedatectl set-timezone America/Sao_Paulo
 
+# Aguardar rede estar pronta
+sleep 10
+
+# Atualizar sistema (mínimo necessário)
+apt-get update -y >> /var/log/user-data.log 2>&1
+
+# Instalar apenas o essencial para SSH funcionar
+apt-get install -y openssh-server >> /var/log/user-data.log 2>&1
+
+# Garantir que SSH está rodando
+systemctl enable ssh >> /var/log/user-data.log 2>&1
+systemctl start ssh >> /var/log/user-data.log 2>&1
+
 # Criar script de teste de conectividade
 cat << 'EOF' > /home/${admin_username}/test-network.sh
 #!/bin/bash

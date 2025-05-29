@@ -62,9 +62,9 @@ variable "threat_intelligence_mode" {
 }
 
 variable "intrusion_detection_mode" {
-  description = "Modo de detecção de intrusão"
+  description = "Modo de detecção de intrusão (apenas Premium SKU)"
   type        = string
-  default     = "Alert"
+  default     = "Off"  # Padrão Off para compatibilidade com Standard
   
   validation {
     condition     = contains(["Off", "Alert", "Deny"], var.intrusion_detection_mode)
